@@ -1,7 +1,7 @@
 import os, shutil, errno
 import requests
-
-basepath = "https://images.mohistory.org/IIIF/webimages/Mohistory.org/Homepages/"
+import config
+basepath = config.basepath
 def main(path):
     r = requests.get(basepath+path, stream=True)
     if r.status_code == 200:
