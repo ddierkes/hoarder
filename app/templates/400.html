@@ -1,0 +1,189 @@
+<html>
+<header>
+  <title>Bad Request</title>
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+</header>
+<body>
+<h1>400 Bad Request: <span style="color:red;">{{message}}</span></h1>
+<p>If you were attempting to input a IIIF request and recieved this page, perhaps you were not following the correct guidelines.   The <a href="https://iiif.io/api/image/2.1/">2.1 specs</a> require the following:</p>
+<pre style="background:#ddd;margin:10px 30px;display:inline-block;padding:20px;">{scheme}://{server}{/prefix}/{identifier}/{region}/{size}/{rotation}/{quality}.{format}</pre>
+
+<h3 id="region">4.1. Region</h3>
+
+<p>The region parameter defines the rectangular portion of the full image to be returned. Region can be specified by pixel coordinates, percentage or by the value “full”, which specifies that the entire image should be returned.</p>
+
+<table class="api-table">
+  <thead>
+    <tr>
+      <th>Form</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">full</code></td>
+      <td>The complete image is returned, without any cropping.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">square</code></td>
+      <td>The region is defined as an area where the width and height are both equal to the length of the shorter dimension of the complete image. The region may be positioned anywhere in the longer dimension of the image content at the server’s discretion, and centered is often a reasonable default.</td>
+    </tr>
+    <tr>
+      <td>x,y,w,h</td>
+      <td>The region of the full image to be returned is specified in terms of absolute pixel values. The value of x represents the number of pixels from the 0 position on the horizontal axis. The value of y represents the number of pixels from the 0 position on the vertical axis. Thus the x,y position 0,0 is the upper left-most pixel of the image. w represents the width of the region and h represents the height of the region in pixels.</td>
+    </tr>
+    <tr>
+      <td>pct:x,y,w,h</td>
+      <td>The region to be returned is specified as a sequence of percentages of the full image’s dimensions, as reported in the image information document. Thus, <code class="highlighter-rouge">x</code> represents the number of pixels from the 0 position on the horizontal axis, calculated as a percentage of the reported width. <code class="highlighter-rouge">w</code> represents the width of the region, also calculated as a percentage of the reported width. The same applies to y and h respectively. These may be floating point numbers.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="size">4.2. Size</h3>
+
+<p>The size parameter determines the dimensions to which the extracted region is to be scaled.</p>
+
+<table class="api-table">
+  <thead>
+    <tr>
+      <th>Form</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">full</code></td>
+      <td>The image or region is not scaled, and is returned at its full size. Note <a href="#full-dep" title="Full Size Keyword Deprecation Warning">deprecation warning</a>.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">max</code></td>
+      <td>The image or region is returned at the maximum size available, as indicated by <code class="highlighter-rouge">maxWidth</code>, <code class="highlighter-rouge">maxHeight</code>, <code class="highlighter-rouge">maxArea</code> in the <a href="#profile-description" title="5.3 Profile Description">profile description</a>. This is the same as <code class="highlighter-rouge">full</code> if none of these properties are provided.</td>
+    </tr>
+    <tr>
+      <td>w,</td>
+      <td>The image or region should be scaled so that its width is exactly equal to w, and the height will be a calculated value that maintains the aspect ratio of the extracted region.</td>
+    </tr>
+    <tr>
+      <td>,h</td>
+      <td>The image or region should be scaled so that its height is exactly equal to h, and the width will be a calculated value that maintains the aspect ratio of the extracted region.</td>
+    </tr>
+    <tr>
+      <td>pct:n</td>
+      <td>The width and height of the returned image is scaled to n% of the width and height of the extracted region. The aspect ratio of the returned image is the same as that of the extracted region.</td>
+    </tr>
+    <tr>
+      <td>w,h</td>
+      <td>The width and height of the returned image are exactly w and h. The aspect ratio of the returned image <em class="rfc">may</em> be different than the extracted region, resulting in a distorted image.</td>
+    </tr>
+    <tr>
+      <td>!w,h</td>
+      <td>The image content is scaled for the best fit such that the resulting width and height are less than or equal to the requested width and height. The exact scaling <em class="rfc">may</em> be determined by the service provider, based on characteristics including image quality and system performance. The dimensions of the returned image content are calculated to maintain the aspect ratio of the extracted region.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="rotation">4.3. Rotation</h3>
+
+<p>The rotation parameter specifies mirroring and rotation. A leading exclamation mark (“!”) indicates that the image should be mirrored by reflection on the vertical axis before any rotation is applied. The numerical value represents the number of degrees of clockwise rotation, and may be any floating point number from 0 to 360.</p>
+
+<table class="api-table">
+  <thead>
+    <tr>
+      <th>Form</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>n</td>
+      <td>The degrees of clockwise rotation from 0 up to 360.</td>
+    </tr>
+    <tr>
+      <td>!n</td>
+      <td>The image should be mirrored and then rotated as above.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="quality">4.4. Quality</h3>
+
+<p>The quality parameter determines whether the image is delivered in color, grayscale or black and white.</p>
+
+<table class="api-table">
+  <thead>
+    <tr>
+      <th>Quality</th>
+      <th>Parameter Returned</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">color</code></td>
+      <td>The image is returned in full color.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">gray</code></td>
+      <td>The image is returned in grayscale, where each pixel is black, white or any shade of gray in between.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">bitonal</code></td>
+      <td>The image returned is bitonal, where each pixel is either black or white.</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">default</code></td>
+      <td>The image is returned using the server’s default quality (e.g. color, gray or bitonal) for the image.</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="format">4.5. Format</h3>
+
+<p>The format of the returned image is expressed as an extension at the end of the URI.</p>
+
+<table class="api-table">
+  <thead>
+    <tr>
+      <th>Extension</th>
+      <th>MIME Type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">jpg</code></td>
+      <td>image/jpeg</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">tif</code></td>
+      <td>image/tiff</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">png</code></td>
+      <td>image/png</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">gif</code></td>
+      <td>image/gif</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">jp2</code></td>
+      <td>image/jp2</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">pdf</code></td>
+      <td>application/pdf</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">webp</code></td>
+      <td>image/webp</td>
+    </tr>
+  </tbody>
+</table>
+
+<style>
+table {margin:0 10%;}
+td {padding:3px 20px;border:1px solid black}
+thead {background-color:teal; color:white;}
+</style>
+
+</body>
+</html>
