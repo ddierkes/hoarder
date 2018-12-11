@@ -1,7 +1,4 @@
-files/
-!files/.gitkeep
-
-
+app/config.py
 
 #Boiler plate python git ignore stuff below
 

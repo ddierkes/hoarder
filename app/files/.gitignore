@@ -1,0 +1,4 @@
+#in theory this forces an ignore of all this folder's contents while retaining the folder itself
+*
+*/
+!.gitignore

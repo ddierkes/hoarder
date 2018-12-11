@@ -5,6 +5,15 @@ Hoarder is a simple caching system with some tweaks to work with the Tuatara III
 ```
 git clone thisrepo
 cd hoarder
+```
+
+Then you need to copy the config.example file and edit it to point at the IIIF server that needs to be cached.
+```
+cp config.example app/config.py
+```
+
+After this is done, build the image
+```
 docker build -t hoarder .
 ```
 

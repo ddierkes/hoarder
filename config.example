@@ -1,0 +1,3 @@
+#Add the basepath to the IIIF server you wish to cache.
+#Then cp config.example app/config.py 
+basepath =  ""
