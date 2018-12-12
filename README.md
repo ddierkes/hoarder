@@ -1,6 +1,6 @@
 # Hoarder, a IIIF Image Cacher
 
-Hoarder is a simple caching system intended to work with a IIIF Image Server.  Put it in front of the image server and request images from it.  If it has them, it will provide them.  If it does not, it will call the IIIF image server and get them.  That fetch is saved, and next time it comes out faster.
+Hoarder is a simple caching system intended to work with a [IIIF Image Server](https://iiif.io/).  Put it in front of the image server and request images from it.  If it has them, it will provide them.  If it does not, it will call the IIIF image server and get them.  That fetch is saved, and next time it comes out faster.
 
 ## Set Up
 Put docker on your machine, clone this repo, configure it, and build it.
