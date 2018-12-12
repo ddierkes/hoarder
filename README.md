@@ -27,6 +27,6 @@ Run the container at a port of your choosing (in this case 9999) to serve a dire
 
 ## Clean Up
 
-The cache will fill up very quickly when used with tools like openseadragon which require a great many derivative files.  A utility script is included at app/cleanup.py which can be run as a cron job.  it takes arguments for the file directory, the size you wish to keep your cache at, a 'test' or 'run' value for determining if you intend to see what needs deleted or to actually delete them, and finally a number of days from today to purge.  The script can be run like so.
+The cache will fill up very quickly when used with tools like openseadragon which require a great many derivative files.  A utility script is included at app/cleanup.py which can be run as a cron job.  it takes arguments for the file directory, the size you wish to keep your cache at, a 'test' or 'run' value for determining if you intend to see what needs deleted or to actually delete them, and finally a number of days from today to purge.  by default it runs the values in the config file, but command line arguments if present will take precedence.  The script can be run like so.
 
 ```python3 cleanup.py 'files' 2000000 'test' 20```

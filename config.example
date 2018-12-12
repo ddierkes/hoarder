@@ -1,3 +1,18 @@
 #Add the basepath to the IIIF server you wish to cache.
-#Then cp config.example app/config.py 
+#Then cp config.example app/config.py
 basepath =  ""
+
+
+# PARAMETERS FOR REGULAR FILE CLEANUP
+# the relative path of 'files' should work fine in must use cases, but a full path might be necessary
+# if running from crontab or somewhere that could affection the python path
+# file_directory is the location of the cached files that need cleaned.
+file_directory = 'files'
+# size_limit is the total number of bits you want your cache chopped down to
+size_limit = 2000000
+# mode can be any string to run as a test, but if mode is 'run' it will delete files
+mode = 'test'
+# a general chop is made of the cache by age before it is chopped by sizeself.
+# days is an integer and anything older than that many days from present is discarded
+# every time the clean up script is run.
+days = 20

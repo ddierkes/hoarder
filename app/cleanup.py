@@ -5,6 +5,8 @@ import glob, os, time
 import sys
 from operator import itemgetter
 
+import config
+
 
 def directory_cleanse(directory):
     """
@@ -105,16 +107,23 @@ def main(mypath, sizelimit, mode="test", days=30):
 
 if __name__ == "__main__":
     # main("files", 2000000, "test", 1)
-    try:
-        print(sys.argv)
-        main(sys.argv[1], int(sys.argv[2]), sys.argv[3], int(sys.argv[4]))
-    except:
-        print(
-            "cleanup.py should be run with four arguments\n"
-            "these being the file directory\n"
-            "the size limit\n"
-            "the 'test' or 'run'\n"
-            "and how many days to purge\n"
-            "an example command would be:\n"
-            "\tpython3 cleanup.py 'files' 2000000 'test' 20"
-        )
+    if len(sys.argv) > 1:
+        try:
+            print(sys.argv)
+            main(sys.argv[1], int(sys.argv[2]), sys.argv[3], int(sys.argv[4]))
+        except:
+            print(
+                "cleanup.py should be run with four arguments\n"
+                "these being the file directory\n"
+                "the size limit\n"
+                "the 'test' or 'run'\n"
+                "and how many days to purge\n"
+                "an example command would be:\n"
+                "\tpython3 cleanup.py 'files' 2000000 'test' 20"
+            )
+    else:
+        try:
+            print("running default cleanup parameters")
+            main(config.file_directory, config.size_limit, config.mode, config.days)
+        except:
+            print("didn't work")
